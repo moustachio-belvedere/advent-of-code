@@ -19,7 +19,7 @@
      (cadr lin)
      (caddr lin)))
 
-;; tail recursive / recursive procedure, iterative process
+;; tail recursive => recursive procedure, iterative process
 ;; assumes list length >= 3, O(n)
 (define (moving-average-tail lin init)
   (if (null? (cddr lin))
@@ -28,7 +28,7 @@
                            (append init
                                    (list (3-add lin))))))
 
-;; regular recursive / recursive procedure, recursive process
+;; regular recursive => recursive procedure, recursive process
 (define (moving-average-recursive lin)
   (if (null? (cddr lin))
       '()
@@ -36,7 +36,7 @@
 
 (module+ main
   (define input (map string->number
-                     (file->lines "01-realinput-p1.txt")))
+                     (file->lines "01-realinput.txt")))
 
   (depth-comparator input +inf.0 0)
   (depth-comparator (moving-average-tail input '())
