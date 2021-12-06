@@ -24,6 +24,12 @@
         1
         0)))
 
+(define (most-common-bit bn i)
+  (ocb bn i >))
+
+(define (most-common-bit bn i)
+  (ocb bn i <))
+
 ;; * commont bit at all indices
 (define (*-common-bits bn op)
   (define (biterator bn acc i len)
@@ -69,5 +75,5 @@
 (module+ main
   (define in (input-wrangle "03-realinput.txt"))
 
-  (power in)
+
 )
