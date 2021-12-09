@@ -25,12 +25,12 @@
         0)))
 
 (define (most-common-bit bn i)
-  (ocb bn i >))
+  (ocb bn i >=))
 
-(define (most-common-bit bn i)
+(define (least-common-bit bn i)
   (ocb bn i <))
 
-;; * commont bit at all indices
+;; * common bit at all indices
 (define (*-common-bits bn op)
   (define (biterator bn acc i len)
     (if (>= i len)
@@ -44,7 +44,7 @@
   (biterator bn '() 0 (length (car bn))))
 
 (define (most-common-bits bn)
-  (*-common-bits bn >))
+  (*-common-bits bn >=))
 
 (define (least-common-bits bn)
   (*-common-bits bn <))
@@ -72,8 +72,26 @@
   (* (binarylist->decimal (most-common-bits lines))
      (binarylist->decimal (least-common-bits lines))))
 
+(define (gas-finbin filt-list pos operator)
+  (if (or (= (length filt-list) 1)
+          (>= pos (length (car filt-list))))
+      (car filt-list)
+      (let ((bit (operator filt-list pos)))
+        (gas-finbin (filter (λ (num)
+                              (= (ith-bit num pos) bit))
+                            filt-list)
+                    (+ pos 1)
+                    operator))))
+
+(define (get-oxygen in)
+  (binarylist->decimal (gas-finbin in 0 most-common-bit)))
+
+(define (get-co2 in)
+  (binarylist->decimal (gas-finbin in 0 least-common-bit)))
+
 (module+ main
+  ;; (define in (input-wrangle "03-testinput.txt"))
   (define in (input-wrangle "03-realinput.txt"))
 
-
+  (* (get-oxygen in) (get-co2 in))
 )
